@@ -1,31 +1,43 @@
 import { useState } from 'react'
 
+import { ThemeContext } from './contexts/ThemeContext'
+import { dark, light } from './styles/themes'
+
 import { Header } from './components/Header'
 import { PasswordGenerator } from './components/PasswordGenerator'
 
-import { dark } from './styles/themes'
-
 import { Container, CssBaseline, ThemeProvider } from '@mui/material'
+
+const ContainerSx = {
+  py: 3,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+}
 
 function App() {
   const [theme, setTheme] = useState(dark)
 
+  const toggleTheme = () =>
+    setTheme((previous) => (previous === dark ? light : dark))
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Container
-        sx={{
-          background: theme.palette.background.default,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Header setTheme={setTheme} />
-        <PasswordGenerator />
-      </Container>
-    </ThemeProvider>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        toggleTheme,
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Container
+          sx={{ ...ContainerSx, background: theme.palette.background.default }}
+        >
+          <Header />
+          <PasswordGenerator />
+        </Container>
+      </ThemeProvider>
+    </ThemeContext.Provider>
   )
 }
 
