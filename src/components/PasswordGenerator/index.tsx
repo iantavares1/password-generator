@@ -10,43 +10,30 @@ export const PasswordGenerator = () => {
   const theme = useTheme()
 
   const {
-    password,
-    handleCopy,
-    generatePassword,
     charactersAmount,
-    INITIAL_CHARACTERS_AMOUNT,
-    handleSliderChange,
-    handleUpperCaseCheckBoxChange,
-    handleLowerCaseCheckBoxChange,
-    handleSymbolsCheckBoxChange,
-    handleNumbersCheckBoxChange,
+    options,
+    password,
+    setCharactersAmount,
+    setOptions,
+    generatePassword,
   } = usePasswordGenerator()
 
   return (
     <Box
       sx={{
-        marginTop: theme.spacing(10),
+        width: '100%',
+        marginTop: theme.spacing(2),
         display: 'flex',
         flexDirection: 'column',
-        gap: theme.spacing(4),
+        gap: theme.spacing(2),
       }}
     >
-      <Password
-        password={password}
-        handleCopy={handleCopy}
-        generatePassword={generatePassword}
-      />
+      <Password password={password} onClick={generatePassword} />
       <CharactersNumber
         charactersAmount={charactersAmount}
-        INITIAL_CHARACTERS_AMOUNT={INITIAL_CHARACTERS_AMOUNT}
-        handleSliderChange={handleSliderChange}
+        onSliderChange={setCharactersAmount}
       />
-      <Options
-        handleUpperCaseCheckBoxChange={handleUpperCaseCheckBoxChange}
-        handleLowerCaseCheckBoxChange={handleLowerCaseCheckBoxChange}
-        handleSymbolsCheckBoxChange={handleSymbolsCheckBoxChange}
-        handleNumbersCheckBoxChange={handleNumbersCheckBoxChange}
-      />
+      <Options options={options} setOptions={setOptions} />
     </Box>
   )
 }

@@ -1,31 +1,36 @@
-import { Box, Checkbox, Typography, useTheme } from '@mui/material'
+import { Box, Typography, useTheme } from '@mui/material'
+import { CustomCheckbox } from './CustomCheckbox'
+
+import { OptionsType } from '../../../types/OptionsType'
 
 type OptionsProps = {
-  handleUpperCaseCheckBoxChange: (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => void
-  handleLowerCaseCheckBoxChange: (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => void
-  handleSymbolsCheckBoxChange: (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => void
-  handleNumbersCheckBoxChange: (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => void
+  options: OptionsType
+  setOptions: React.Dispatch<React.SetStateAction<OptionsType>>
 }
 
-export const Options = ({
-  handleUpperCaseCheckBoxChange,
-  handleLowerCaseCheckBoxChange,
-  handleSymbolsCheckBoxChange,
-  handleNumbersCheckBoxChange,
-}: OptionsProps) => {
+export const Options = ({ options, setOptions }: OptionsProps) => {
   const theme = useTheme()
+  const { upperCase, lowerCase, symbols, numbers } = options
+
+  const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const name = event.target.name as keyof OptionsType
+
+    if (
+      Object.values(options).filter((value) => value === true).length === 1 &&
+      options[name]
+    )
+      return
+
+    setOptions((previous) => ({
+      ...previous,
+      [name]: !previous[name],
+    }))
+  }
+
   return (
     <Box
       sx={{
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
         background: theme.palette.secondary.main,
         color: theme.palette.secondary.contrastText,
         borderRadius: theme.spacing(2),
@@ -33,33 +38,40 @@ export const Options = ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        gap: theme.spacing(3),
+        gap: theme.spacing(2),
       }}
     >
-      <Typography variant="h4">Options</Typography>
+      <Typography variant="h5" sx={{ alignSelf: 'center' }}>
+        Options
+      </Typography>
       <Box
-        sx={{ display: 'flex', alignItems: 'center', gap: theme.spacing(2) }}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          gap: theme.spacing(2),
+        }}
       >
-        <Checkbox defaultChecked onChange={handleUpperCaseCheckBoxChange} />
-        <Typography variant="h4">Upper Case</Typography>
-      </Box>
-      <Box
-        sx={{ display: 'flex', alignItems: 'center', gap: theme.spacing(2) }}
-      >
-        <Checkbox defaultChecked onChange={handleLowerCaseCheckBoxChange} />
-        <Typography variant="h4">Lower Case</Typography>
-      </Box>
-      <Box
-        sx={{ display: 'flex', alignItems: 'center', gap: theme.spacing(2) }}
-      >
-        <Checkbox defaultChecked onChange={handleSymbolsCheckBoxChange} />
-        <Typography variant="h4">Symbols</Typography>
-      </Box>
-      <Box
-        sx={{ display: 'flex', alignItems: 'center', gap: theme.spacing(2) }}
-      >
-        <Checkbox defaultChecked onChange={handleNumbersCheckBoxChange} />
-        <Typography variant="h4">Numbers</Typography>
+        <CustomCheckbox
+          name="upperCase"
+          checked={upperCase}
+          onChange={handleCheckBoxChange}
+        />
+        <CustomCheckbox
+          name="lowerCase"
+          checked={lowerCase}
+          onChange={handleCheckBoxChange}
+        />
+        <CustomCheckbox
+          name="symbols"
+          checked={symbols}
+          onChange={handleCheckBoxChange}
+        />
+        <CustomCheckbox
+          name="numbers"
+          checked={numbers}
+          onChange={handleCheckBoxChange}
+        />
       </Box>
     </Box>
   )

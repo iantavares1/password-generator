@@ -1,6 +1,16 @@
 import { useEffect, useState } from 'react'
 
-const INITIAL_CHARACTERS_AMOUNT = 30
+import {
+  LOWER_CASE_RANGE,
+  Range,
+  UPPER_CASE_RANGE,
+  CHARACTERS,
+  INITIAL_CHARACTERS_AMOUNT,
+  NUMBERS_RANGE,
+  SYMBOLS_RANGE,
+} from '../../../utils/constants'
+
+import { OptionsType } from '../../../types/OptionsType'
 
 export const usePasswordGenerator = () => {
   const [password, setPassword] = useState('password')
@@ -9,63 +19,22 @@ export const usePasswordGenerator = () => {
     INITIAL_CHARACTERS_AMOUNT,
   )
 
-  const [hasUpperCase, setHasUpperCase] = useState(true)
-  const [hasLowerCase, setHasLowerCase] = useState(true)
-  const [hasSymbols, setHasSymbols] = useState(true)
-  const [hasNumbers, setHasNumbers] = useState(true)
-
-  const handleUpperCaseCheckBoxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setHasUpperCase(event.target.checked)
-  }
-
-  const handleLowerCaseCheckBoxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setHasLowerCase(event.target.checked)
-  }
-
-  const handleSymbolsCheckBoxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setHasSymbols(event.target.checked)
-  }
-
-  const handleNumbersCheckBoxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setHasNumbers(event.target.checked)
-  }
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(password)
-  }
-
-  const handleSliderChange = (_: Event, newValue: number | number[]) => {
-    setCharactersAmount(newValue as number)
-  }
+  const [options, setOptions] = useState<OptionsType>({
+    upperCase: true,
+    lowerCase: true,
+    symbols: true,
+    numbers: true,
+  })
 
   const generatePassword = () => {
-    type Range = {
-      min: number
-      max: number
-    }
-
-    const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%&*()-+[]{}?/.,<>'
-
-    const UpperCaseRange = { min: 0, max: 25 }
-    const LowerCaseRange = { min: 26, max: 51 }
-    const numbersRange = { min: 52, max: 61 }
-    const symbolsRange = { min: 62, max: 82 }
-
     const rangesArray: Range[] = []
 
-    if (hasUpperCase) rangesArray.push(UpperCaseRange)
-    if (hasLowerCase) rangesArray.push(LowerCaseRange)
-    if (hasNumbers) rangesArray.push(numbersRange)
-    if (hasSymbols) rangesArray.push(symbolsRange)
+    const { upperCase, lowerCase, numbers, symbols } = options
+
+    if (upperCase) rangesArray.push(UPPER_CASE_RANGE)
+    if (lowerCase) rangesArray.push(LOWER_CASE_RANGE)
+    if (numbers) rangesArray.push(NUMBERS_RANGE)
+    if (symbols) rangesArray.push(SYMBOLS_RANGE)
 
     const getRandomNumber = (min: number, max: number) =>
       Math.round(Math.random() * (max - min) + min)
@@ -85,7 +54,7 @@ export const usePasswordGenerator = () => {
       for (let i = 0; i < charactersAmount; i++) {
         const index = getRandomIndex(rangesArray)
 
-        newPassword.push(characters[index])
+        newPassword.push(CHARACTERS[index])
       }
 
       return newPassword.join(',').replace(/,/g, '')
@@ -96,18 +65,14 @@ export const usePasswordGenerator = () => {
 
   useEffect(() => {
     generatePassword()
-  }, [charactersAmount, hasUpperCase, hasLowerCase, hasSymbols, hasNumbers])
+  }, [charactersAmount, options])
 
   return {
-    password,
-    handleCopy,
-    generatePassword,
     charactersAmount,
-    INITIAL_CHARACTERS_AMOUNT,
-    handleSliderChange,
-    handleUpperCaseCheckBoxChange,
-    handleLowerCaseCheckBoxChange,
-    handleSymbolsCheckBoxChange,
-    handleNumbersCheckBoxChange,
+    options,
+    password,
+    setCharactersAmount,
+    setOptions,
+    generatePassword,
   }
 }
