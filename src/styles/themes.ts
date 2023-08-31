@@ -25,21 +25,25 @@ const defaultThemeConfig = responsiveFontSizes(
     },
     typography: {
       fontFamily: 'Inter',
-      h1: {
-        fontSize: 80,
-        fontWeight: 500,
-      },
       h3: {
-        fontSize: 36,
+        fontSize: 40,
         fontWeight: 600,
       },
       h4: {
         fontSize: 20,
-        fontWeight: 500,
+        fontWeight: 600,
+      },
+      h5: {
+        fontSize: 16,
+        fontWeight: 400,
+      },
+      h6: {
+        fontSize: 12,
+        fontWeight: 400,
       },
     },
     breakpoints: {
-      values: { xs: 0, sm: 360, md: 590 },
+      values: { xs: 280, sm: 420, md: 640 },
     },
   }),
 )
