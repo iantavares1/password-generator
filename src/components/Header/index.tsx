@@ -1,28 +1,20 @@
-import { dark, light } from '../../styles/themes'
+import { ThemeSwitch } from './ThemeSwitch'
+import { Title } from './Title'
 
-import { Box, Switch, Theme, Typography, useTheme } from '@mui/material'
+import { Box } from '@mui/material'
 
-type HeaderProps = {
-  setTheme: React.Dispatch<React.SetStateAction<Theme>>
+const BoxSx = {
+  width: '100%',
+  display: 'flex',
+  alignItems: 'flex-start',
+  justifyContent: 'space-between',
 }
 
-export const Header = ({ setTheme }: HeaderProps) => {
-  const theme = useTheme()
+export const Header = () => {
   return (
-    <>
-      <Box
-        sx={{ alignSelf: 'flex-end', display: 'flex', alignItems: 'center' }}
-      >
-        <Typography variant="h6" sx={{ textTransform: 'capitalize' }}>
-          {theme.palette.mode}
-        </Typography>
-        <Switch
-          onClick={() =>
-            setTheme((previous) => (previous === dark ? light : dark))
-          }
-        />
-      </Box>
-      <Typography variant="h1">Password Generator</Typography>
-    </>
+    <Box sx={BoxSx}>
+      <Title />
+      <ThemeSwitch />
+    </Box>
   )
 }
