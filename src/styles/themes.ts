@@ -43,7 +43,7 @@ const defaultThemeConfig = responsiveFontSizes(
       },
     },
     breakpoints: {
-      values: { xs: 280, sm: 420, md: 640 },
+      values: { xs: 280, sm: 430, md: 640 },
     },
   }),
 )

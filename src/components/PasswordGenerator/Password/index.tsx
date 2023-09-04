@@ -48,7 +48,6 @@ export const Password = ({ password, onClick }: PasswordProps) => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'row', sm: 'row', md: 'column' },
           justifyContent: 'center',
           gap: theme.spacing(1),
         }}
@@ -58,14 +57,14 @@ export const Password = ({ password, onClick }: PasswordProps) => {
           onClick={handleCopy}
           aria-label="copy password"
         >
-          <ContentCopy sx={{ fontSize: { xs: 30, sm: 30, md: 45 } }} />
+          <ContentCopy sx={{ fontSize: { xs: 30, sm: 30, md: 40 } }} />
         </IconButton>
         <IconButton
           color="primary"
           onClick={onClick}
           aria-label="regenerate password"
         >
-          <Autorenew sx={{ fontSize: { xs: 30, sm: 30, md: 45 } }} />
+          <Autorenew sx={{ fontSize: { xs: 30, sm: 30, md: 40 } }} />
         </IconButton>
       </Box>
     </Box>

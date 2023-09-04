@@ -9,6 +9,7 @@ import { PasswordGenerator } from './components/PasswordGenerator'
 import { Container, CssBaseline, ThemeProvider } from '@mui/material'
 
 const ContainerSx = {
+  maxWidth: 600,
   py: 3,
   display: 'flex',
   flexDirection: 'column',
@@ -31,7 +32,10 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container
-          sx={{ ...ContainerSx, background: theme.palette.background.default }}
+          sx={{
+            ...ContainerSx,
+            background: theme.palette.background.default,
+          }}
         >
           <Header />
           <PasswordGenerator />
